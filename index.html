@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173d2d">
+  <title>NutriAI — Food Finder for Kolhapur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="NutriAI home">Nutri<span>AI</span><i>.</i></a>
+    <nav aria-label="Main navigation">
+      <a href="#recommend">Find food</a>
+      <a href="#price-info">Price notes</a>
+      <a href="#ethics">AI ethics</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-dot"></span> Food discovery · Kolhapur, Maharashtra</p>
+        <h1>Good food.<br><span>Smarter choices.</span></h1>
+        <p class="hero-description">Explore familiar Indian meals, compare listed menu prices and discover food that fits your preferences — with clear explanations for every recommendation.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#recommend">Explore meals <span aria-hidden="true">↗</span></a>
+          <span class="hero-note">No account needed · Preferences stay in your browser</span>
+        </div>
+        <div class="hero-stats">
+          <div><strong>30+</strong><span>food choices</span></div>
+          <div><strong>₹15+</strong><span>budget options</span></div>
+          <div><strong>Clear</strong><span>price labels</span></div>
+        </div>
+      </div>
+      <div class="hero-photo-wrap">
+        <img class="hero-photo" src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1000&q=85" alt="Fresh colourful salad bowl" fetchpriority="high">
+        <div class="photo-caption"><span class="caption-icon">✦</span><div><strong>Choose what works for you</strong><small>Preference-led recommendations</small></div></div>
+        <div class="floating-chip">Fresh ideas, simple choices</div>
+      </div>
+    </section>
+
+    <section class="recommend-section" id="recommend">
+      <div class="section-heading">
+        <div><p class="eyebrow">Your food assistant</p><h2>Find your next meal</h2><p class="section-subtitle">Filter by diet, meal type, budget and food preferences.</p></div>
+        <div class="location-pill"><span aria-hidden="true">⌖</span> Kolhapur, MH</div>
+      </div>
+
+      <div class="app-layout">
+        <aside class="filter-panel">
+          <div class="filter-title"><div><span class="filter-symbol">☷</span><h3>Preferences</h3></div><button id="resetBtn" class="text-button" type="button">Reset</button></div>
+          <p class="panel-subtitle">Set your preferences to rank matching meals.</p>
+
+          <div class="field">
+            <label for="diet">Dietary preference</label>
+            <select id="diet">
+              <option value="all">All foods</option><option value="veg">Vegetarian</option><option value="vegan">Vegan</option><option value="nonveg">Non-vegetarian</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="goal">What matters most?</label>
+            <select id="goal">
+              <option value="balanced">Balanced choice</option><option value="protein">Higher protein</option><option value="lowoil">Lower oil estimate</option><option value="fiber">Higher fibre</option><option value="light">Lighter meal estimate</option><option value="cheap">Lower price</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="budget">Budget per serving <span class="rupee">(₹)</span></label>
+            <div class="budget-input"><span>₹</span><input id="budget" type="number" min="15" max="5000" step="5" value="150" inputmode="numeric"></div>
+            <input id="budgetRange" class="range" type="range" min="15" max="600" step="5" value="150" aria-label="Budget slider">
+            <div class="range-labels"><span>₹15</span><span>₹600+</span></div>
+          </div>
+          <div class="field">
+            <label for="meal">Meal category</label>
+            <select id="meal"><option value="any">Any time</option><option value="breakfast">Breakfast</option><option value="lunch">Lunch</option><option value="dinner">Dinner</option><option value="snack">Snack & drinks</option></select>
+          </div>
+          <div class="field">
+            <label>Exclude ingredients</label>
+            <label class="check-row"><input type="checkbox" id="noNuts"><span>Peanuts / tree nuts</span></label>
+            <label class="check-row"><input type="checkbox" id="noDairy"><span>Dairy</span></label>
+            <label class="check-row"><input type="checkbox" id="noGluten"><span>Gluten-containing items</span></label>
+            <p class="tiny-note">Ingredient flags are simplified examples. Always confirm allergens with the restaurant.</p>
+          </div>
+          <button class="button button-primary recommend-button" id="recommendBtn" type="button"><span aria-hidden="true">✦</span> Recommend food</button>
+          <p class="privacy-note"><span aria-hidden="true">🔒</span> Filters run locally in this page. No profile is created.</p>
+        </aside>
+
+        <section class="results-area" aria-label="Food recommendations">
+          <div class="results-toolbar">
+            <div><h3>Food picks for you</h3><p id="resultsDescription">Browse the menu and adjust your filters.</p></div>
+            <label class="sort-control" for="sort">Sort by <select id="sort"><option value="match">Best match</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option></select></label>
+          </div>
+          <div class="price-notice"><span class="notice-icon">i</span><p><strong>Price transparency:</strong> listed menu prices are online menu snapshots, not live quotes. Other prices are clearly marked estimates. Delivery fees, taxes, offers and menu changes may affect your final bill.</p></div>
+          <div class="food-grid" id="foodGrid" aria-live="polite"></div>
+          <p class="empty-state" id="emptyState" hidden>No food matches all these filters. Try increasing your budget or changing a restriction.</p>
+        </section>
+      </div>
+    </section>
+
+    <section class="price-section" id="price-info">
+      <div class="section-heading compact-heading"><div><p class="eyebrow">Honest pricing</p><h2>Know what the price means</h2><p class="section-subtitle">This demo does not have a live restaurant ordering API connected.</p></div></div>
+      <div class="price-explain-grid">
+        <article class="price-explain-card"><span class="price-label label-menu">Menu snapshot</span><h3>Published menu price</h3><p>Based on an online menu listing found for a Kolhapur restaurant. It can change; open the source menu to verify before ordering.</p></article>
+        <article class="price-explain-card"><span class="price-label label-estimate">Estimate</span><h3>Indicative price</h3><p>A rough local-style estimate for a common food item. It is not verified against a current restaurant menu.</p></article>
+        <article class="price-explain-card"><span class="price-label label-live">Live price</span><h3>Not connected</h3><p>No item is labelled live. Real-time prices require a working restaurant/menu API or verified live data feed.</p></article>
+      </div>
+      <p class="source-note">Menu snapshot sources: <a href="https://www.swiggy.com/city/kolhapur/majestic-cafe-shahupuri-tarabai-park-rest811935" target="_blank" rel="noopener noreferrer">Majestic Cafe on Swiggy</a>, <a href="https://www.zomato.com/kolhapur/majestic-cafe-shahupuri" target="_blank" rel="noopener noreferrer">Majestic Cafe on Zomato</a>, and <a href="https://www.swiggy.com/city/kolhapur/a1-kitchen-tarabai-park-rest1465134" target="_blank" rel="noopener noreferrer">A1 Kitchen on Swiggy</a>. Menu availability and prices may differ by time and delivery area.</p>
+    </section>
+
+    <section class="ethics-section" id="ethics">
+      <div class="section-heading"><div><p class="eyebrow">Foundation of AI with Ethics</p><h2>Helpful recommendations, responsible design.</h2><p class="section-subtitle">The system should be understandable, fair and honest about its limitations.</p></div></div>
+      <div class="ethics-grid">
+        <article class="ethics-card"><span class="ethics-icon">↗</span><h3>Explainable</h3><p>Each card shows the factors that helped determine its ranking.</p></article>
+        <article class="ethics-card"><span class="ethics-icon">⚖</span><h3>Consistent</h3><p>Food items are scored using the same user-selected rules.</p></article>
+        <article class="ethics-card"><span class="ethics-icon">⌑</span><h3>Privacy-aware</h3><p>Preferences are processed in the browser and not sent to a backend.</p></article>
+        <article class="ethics-card"><span class="ethics-icon">♡</span><h3>Safety first</h3><p>Food recommendations are not medical advice. Verify ingredients and allergy risks directly.</p></article>
+      </div>
+      <p class="project-footnote">Academic demo: a transparent rule-based recommendation algorithm, not a trained machine-learning model. Nutrition values are approximate illustrative values and should not be used for clinical decisions.</p>
+    </section>
+  </main>
+
+  <footer><a class="brand footer-brand" href="#home">Nutri<span>AI</span><i>.</i></a><p>AI-Based Food Recommendation System · Foundation of AI with Ethics</p><p class="footer-small">Made for learning · Kolhapur food-price references are provided for transparency</p></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
+
